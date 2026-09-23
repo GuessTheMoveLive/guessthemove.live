@@ -37,7 +37,7 @@ The Candidate Game chosen to guess through for the rest of the Session, played m
 The color in the Featured Game whose moves Participants guess.
 
 **Accuracy Score**:
-A computed measure of how closely a game's moves track engine-best play, used to enforce a minimum quality bar on Candidate Games.
+A computed quality gate on a Candidate Game: the Featured Side's average per-move win-probability loss, from the reached position through to the game's end, which must stay below the inaccuracy cutoff, with no single Featured Side move crossing the blunder cutoff. Only the Featured Side's moves count — the side other than the Featured Side is not scored.
 
 **Round**:
 One iteration of guessing a single Featured Side move: Participants submit Guesses and may extend Analysis Trees, the Host triggers Reveal, then a Round Score and updated Leaderboard follow.
