@@ -67,13 +67,13 @@ The engine's own computed assessment of a position or move, produced live and on
 The -3..+3 points a Guess earns, from win-probability-loss bands computed against the Evaluation of the Featured Side's actual move.
 
 **Soundness Bonus**:
-Points an Analysis Tree node earns for holding up against the Evaluation at that node.
++0.5 earned by an Analysis Tree node beyond the Guess itself — the Guess's own root is never scored for Soundness, since Guess Score already covers it — whose win-probability loss against the best available reply stays under the blunder cutoff (see Accuracy Score). A Wildcard Reply earns no Soundness Bonus of its own, having no specific move to check; only Anticipated Reply nodes do.
 
 **Assessment Bonus**:
-Graduated points an Analysis Tree leaf's Assessment Symbol earns for how close it lands to the Evaluation at that leaf.
+Points an Analysis Tree leaf's Assessment Symbol earns against the Evaluation at that leaf, in three tiers: +0.5 for an exact band match, +0.25 for an adjacent band, 0 for the wrong side of the ledger entirely.
 
 **Round Score**:
-A Participant's total for one Round: Guess Score plus any Soundness Bonuses and Assessment Bonuses from that Round's Analysis Tree.
+A Participant's total for one Round: Guess Score plus that Round's Analysis Tree contribution, where the contribution is the sum of all Soundness Bonuses and Assessment Bonuses earned, capped at +3 (one shared cap across both bonus types, not split between them). Every bonus is additive-only — floored at 0 per node/leaf, never subtracting — so nothing about the Analysis Tree can make a Round Score worse than Guess Score alone, and a strong Analysis Tree can carry a negative Guess Score to a net positive Round Score. Effective range: -3 (worst Guess, no tree credit) to +6 (best Guess, tree contribution capped).
 
 **Reveal**:
 The Host-triggered moment a Round's Guesses and Analysis Trees become visible to the room and the Leaderboard updates. Nothing is visible to anyone (Participants or the Host Display) before it.
