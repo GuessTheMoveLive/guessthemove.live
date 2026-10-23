@@ -1,0 +1,17 @@
+name = "guessthemove-live"
+main = "src/index.js"
+compatibility_date = "2026-10-23"
+
+[env.production]
+name = "guessthemove-live"
+routes = [
+  { pattern = "guessthemove.live", custom_domain = true }
+]
+vars = { ENVIRONMENT = "production" }
+
+[env.preview]
+name = "guessthemove-live-preview"
+routes = [
+  { pattern = "preview.guessthemove.live", custom_domain = true }
+]
+vars = { ENVIRONMENT = "preview" }
