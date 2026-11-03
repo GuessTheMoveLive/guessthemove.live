@@ -1,6 +1,8 @@
 name = "guessthemove-live"
-main = "src/index.js"
 compatibility_date = "2026-10-23"
+
+[assets]
+directory = "build"
 
 [env.production]
 name = "guessthemove-live"
