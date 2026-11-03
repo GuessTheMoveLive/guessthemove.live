@@ -2,6 +2,8 @@
 
 A live, multiplayer chess training format: participants guess the moves of a strong player from a real game, scored for accuracy rather than speed, while a shared display runs the event.
 
+This glossary describes the full intended product model. Several terms below are not yet implemented in the shipped app (v1) — each is marked `_Status: not yet shipped (v1)_`. Treat those terms as the target model, not a description of what a visitor can do today.
+
 ## Language
 
 **Session**:
@@ -26,9 +28,11 @@ The short code (with accompanying URL) a Session's Host Display shows so Partici
 **Plenum Selection Phase**:
 The Session's opening phase: the Host enters moves on the Host Display's board as the room verbally agrees on a position, with no Participant device interaction or scoring. Once a position is reached, it's used to search for a Candidate Game.
 _Avoid_: Opening phase, game selection
+_Status: not yet shipped (v1) — v1 has no live game search; the Featured Game is chosen offline ahead of the Session._
 
 **Candidate Game**:
 A real game surfaced by searching on criteria (opening reached, tournament tier, gender, etc.) during the Plenum Selection Phase, carrying a computed Accuracy Score. The Host picks one Candidate Game meeting the minimum Accuracy Score to become the Featured Game.
+_Status: not yet shipped (v1) — no live candidate search exists; see Plenum Selection Phase._
 
 **Featured Game**:
 The Candidate Game chosen to guess through for the rest of the Session, played move by move across successive Rounds.
@@ -49,31 +53,39 @@ _Avoid_: Answer, pick
 **Analysis Tree**:
 A Participant's optional, unbounded-depth structure of moves branching off their Guess, extendable until Reveal even after the Guess itself is locked. Each branch point is either an Anticipated Reply or a Wildcard Reply, and each leaf carries an Assessment Symbol.
 _Avoid_: Variation, line (use only inside a definition, not as the canonical term)
+_Status: not yet shipped (v1) — v1 scores a single locked Guess only; no Analysis Tree exists in the app._
 
 **Anticipated Reply**:
 A branch in an Analysis Tree keyed to one specific opponent move the Participant is planning against.
+_Status: not yet shipped (v1) — see Analysis Tree._
 
 **Wildcard Reply**:
 A branch in an Analysis Tree, written `*`, meaning "whatever the opponent plays instead" — sits alongside a node's Anticipated Replies as a fallback.
+_Status: not yet shipped (v1) — see Analysis Tree._
 
 **Assessment Symbol**:
 The standard chess annotation (`+-`, `±`, `=`, `∓`, `-+`) a Participant chooses at an Analysis Tree leaf to state their own read of that resulting position.
 _Avoid_: Eval, evaluation (reserve those for the engine's computed Evaluation, not the Participant's Assessment Symbol)
+_Status: not yet shipped (v1) — see Analysis Tree._
 
 **Evaluation**:
 The engine's own computed assessment of a position or move, produced live and on demand. Distinct from a Participant's Assessment Symbol, which is compared against it for credit.
+_Status: partially shipped (v1) — the engine's assessment exists and backs Guess Score, but it's computed offline by Stockfish ahead of the Session, not live/on-demand as described here._
 
 **Guess Score**:
 The -3..+3 points a Guess earns, from win-probability-loss bands computed against the Evaluation of the Featured Side's actual move.
 
 **Soundness Bonus**:
 +0.5 earned by an Analysis Tree node beyond the Guess itself — the Guess's own root is never scored for Soundness, since Guess Score already covers it — whose win-probability loss against the best available reply stays under the blunder cutoff (see Accuracy Score). A Wildcard Reply earns no Soundness Bonus of its own, having no specific move to check; only Anticipated Reply nodes do.
+_Status: not yet shipped (v1) — see Analysis Tree._
 
 **Assessment Bonus**:
 Points an Analysis Tree leaf's Assessment Symbol earns against the Evaluation at that leaf, in three tiers: +0.5 for an exact band match, +0.25 for an adjacent band, 0 for the wrong side of the ledger entirely.
+_Status: not yet shipped (v1) — see Analysis Tree._
 
 **Round Score**:
 A Participant's total for one Round: Guess Score plus that Round's Analysis Tree contribution, where the contribution is the sum of all Soundness Bonuses and Assessment Bonuses earned, capped at +3 (one shared cap across both bonus types, not split between them). Every bonus is additive-only — floored at 0 per node/leaf, never subtracting — so nothing about the Analysis Tree can make a Round Score worse than Guess Score alone, and a strong Analysis Tree can carry a negative Guess Score to a net positive Round Score. Effective range: -3 (worst Guess, no tree credit) to +6 (best Guess, tree contribution capped).
+_Status: partially shipped (v1) — v1 has no Analysis Tree contribution, so today Round Score == Guess Score, range -3..+3._
 
 **Reveal**:
 The Host-triggered moment a Round's Guesses and Analysis Trees become visible to the room and the Leaderboard updates. Nothing is visible to anyone (Participants or the Host Display) before it.
